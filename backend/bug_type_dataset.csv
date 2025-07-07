@@ -1,0 +1,151 @@
+description,category
+Reset button doesn't clear all fields,Logic
+Video playback stutters,Performance
+Unencrypted credentials in storage,Security
+Poor contrast on buttons,UI
+Sort feature not working,Logic
+Navbar overlaps content when window resized,UI
+Brute force not prevented,Security
+JWT not verified,Security
+UI slows down with more than 100 items,Performance
+Animations are choppy,Performance
+Text input field too small on tablet,UI
+Image carousel not loading,UI
+Sidebar doesn't collapse properly,UI
+Scroll lags on large lists,Performance
+Tooltip position is incorrect,UI
+Session doesn't expire on logout,Security
+App freezes when switching tabs,Performance
+Form allows SQL injection,Security
+Form allows negative age,Logic
+Score calculation is off,Logic
+Reset button doesn't clear all fields,Logic
+Page takes too long to load,Performance
+Image carousel not loading,UI
+Tooltip position is incorrect,UI
+Scroll lags on large lists,Performance
+Upload fails without error message,Logic
+Dropdown not visible in dark mode,UI
+Form allows SQL injection,Security
+CSRF token missing,Security
+Sidebar doesn't collapse properly,UI
+CSRF token missing,Security
+Calendar marks wrong date,Logic
+Memory usage spikes after upload,Performance
+High CPU usage on dashboard,Performance
+Upload fails without error message,Logic
+Memory usage spikes after upload,Performance
+Unencrypted credentials in storage,Security
+Brute force not prevented,Security
+User info not encrypted in database,Security
+High latency after login,Performance
+Button not aligned on mobile screen,UI
+XSS vulnerability on profile page,Security
+File download takes too long,Performance
+Login response delayed by 5 seconds,Performance
+UI distorted on landscape mode,UI
+Page takes too long to load,Performance
+Non-admin can delete data,Logic
+User password visible in logs,Security
+Login response delayed by 5 seconds,Performance
+App freezes when switching tabs,Performance
+XSS vulnerability on profile page,Security
+UI distorted on landscape mode,UI
+Login returns 500 error,Logic
+Password reset link doesn't expire,Security
+UI slows down with more than 100 items,Performance
+User password visible in logs,Security
+Sort feature not working,Logic
+User info not encrypted in database,Security
+Discount not applied correctly,Logic
+Password reset link doesn't expire,Security
+API calls take too long,Performance
+Form allows SQL injection,Security
+Form allows negative age,Logic
+Session can be hijacked,Security
+HTTPS not enforced on login,Security
+Dropdown not visible in dark mode,UI
+Session can be hijacked,Security
+File download takes too long,Performance
+High CPU usage on dashboard,Performance
+UI disappears after refresh,UI
+Filters not working properly,Logic
+UI distorted on landscape mode,UI
+Password reset link doesn't expire,Security
+Memory usage spikes after upload,Performance
+Calendar marks wrong date,Logic
+Animations are choppy,Performance
+Non-admin can delete data,Logic
+Login returns 500 error,Logic
+Incorrect data shown in table,Logic
+UI slows down with more than 100 items,Performance
+Filters not working properly,Logic
+Incorrect data shown in table,Logic
+Unencrypted credentials in storage,Security
+Form fields not centered,UI
+Wrong total displayed in cart,Logic
+High latency after login,Performance
+JWT not verified,Security
+Brute force not prevented,Security
+User info not encrypted in database,Security
+Video playback stutters,Performance
+Poor contrast on buttons,UI
+Modal close button missing,UI
+File download takes too long,Performance
+UI disappears after refresh,UI
+User gets logged out randomly,Logic
+Button not aligned on mobile screen,UI
+User gets logged out randomly,Logic
+Sort feature not working,Logic
+Poor contrast on buttons,UI
+User gets logged out randomly,Logic
+Text input field too small on tablet,UI
+UI disappears after refresh,UI
+Navbar overlaps content when window resized,UI
+Score calculation is off,Logic
+CSRF token missing,Security
+Sidebar doesn't collapse properly,UI
+JWT not verified,Security
+App freezes when switching tabs,Performance
+Button not aligned on mobile screen,UI
+Filters not working properly,Logic
+User password visible in logs,Security
+Clicking submit twice causes duplicate,Logic
+Form allows negative age,Logic
+Reset button doesn't clear all fields,Logic
+Modal close button missing,UI
+Form fields not centered,UI
+Discount not applied correctly,Logic
+Login response delayed by 5 seconds,Performance
+Dropdown not visible in dark mode,UI
+Navbar overlaps content when window resized,UI
+Clicking submit twice causes duplicate,Logic
+High latency after login,Performance
+HTTPS not enforced on login,Security
+Discount not applied correctly,Logic
+Session can be hijacked,Security
+Session doesn't expire on logout,Security
+API calls take too long,Performance
+Wrong total displayed in cart,Logic
+Login returns 500 error,Logic
+Incorrect data shown in table,Logic
+XSS vulnerability on profile page,Security
+Video playback stutters,Performance
+Form fields not centered,UI
+API calls take too long,Performance
+Clicking submit twice causes duplicate,Logic
+Modal close button missing,UI
+Score calculation is off,Logic
+Animations are choppy,Performance
+Tooltip position is incorrect,UI
+Wrong total displayed in cart,Logic
+High CPU usage on dashboard,Performance
+Session doesn't expire on logout,Security
+Page takes too long to load,Performance
+Image carousel not loading,UI
+Text input field too small on tablet,UI
+HTTPS not enforced on login,Security
+Scroll lags on large lists,Performance
+Calendar marks wrong date,Logic
+Non-admin can delete data,Logic
+Upload fails without error message,Logic
