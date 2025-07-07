@@ -20,9 +20,23 @@ mongoose.connect(process.env.MONGO_URI)
 
 
 // Routes
+// backend/routes/bugs.js or similar
+
 app.get("/bugs", async (req, res) => {
-  const bugs = await Bug.find();
-  res.json(bugs);
+  try {
+    const { reporter } = req.query;
+
+    let bugs;
+    if (reporter) {
+      bugs = await Bug.find({ reporter });
+    } else {
+      bugs = await Bug.find();
+    }
+
+    res.json(bugs);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch bugs" });
+  }
 });
 
 app.post("/bugs", async (req, res) => {
