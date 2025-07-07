@@ -3,8 +3,17 @@ const express = require('express');
 const router = express.Router();
 const { OAuth2Client } = require('google-auth-library');
 const jwt = require('jsonwebtoken');
-const User = require('../models/user'); // corrected relative path
+const User = require('../models/user');
+
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+
+// Determine role based on email domain or custom logic
+function determineUserRole(email) {
+  if (email.endsWith('@company.com')) {
+    return 'developer';
+  }
+  return 'reporter';
+}
 
 router.post("/google", async (req, res) => {
   const { token } = req.body;
@@ -18,15 +27,26 @@ router.post("/google", async (req, res) => {
     const { name, email, sub: googleId } = ticket.getPayload();
 
     let user = await User.findOne({ email });
+
     if (!user) {
-      user = await User.create({ name, email, googleId, role: "reporter" });
+      const role = determineUserRole(email); // logic to assign role
+      user = await User.create({ name, email, googleId, role });
     }
 
-    const jwtToken = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, {
-      expiresIn: "1d",
-    });
+    const jwtToken = jwt.sign(
+      { id: user._id, role: user.role },
+      process.env.JWT_SECRET,
+      { expiresIn: "1d" }
+    );
 
-    res.json({ token: jwtToken, user: { name: user.name, email: user.email, role: user.role } });
+    res.json({
+      token: jwtToken,
+      user: {
+        name: user.name,
+        email: user.email,
+        role: user.role
+      }
+    });
   } catch (err) {
     console.error("Google auth failed", err);
     res.status(401).json({ error: "Authentication failed" });
