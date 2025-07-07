@@ -1,6 +1,5 @@
 import React from 'react';
 import { GoogleLogin } from '@react-oauth/google';
-import jwt_decode from 'jwt-decode';
 import axios from 'axios';
 
 function Login({ onLogin }) {
@@ -10,8 +9,12 @@ function Login({ onLogin }) {
         token: credentialResponse.credential,
       });
 
-      localStorage.setItem("token", res.data.token);
-      onLogin(res.data.user); // pass user info to App
+      const { token, user } = res.data;
+
+      localStorage.setItem("token", token);
+      localStorage.setItem("user", JSON.stringify(user)); // store user info including role
+
+      onLogin(user); // pass user info to App
 
     } catch (err) {
       console.error("Login failed", err);
