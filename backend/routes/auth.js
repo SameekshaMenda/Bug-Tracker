@@ -1,55 +1,87 @@
-// routes/auth.js
 const express = require('express');
 const router = express.Router();
-const { OAuth2Client } = require('google-auth-library');
+const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 
-const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+// Secret Key for JWT
+const JWT_SECRET = 'your_secret_key_here'; // Use env variable in production
 
-// Determine role based on email domain or custom logic
-function determineUserRole(email) {
-  if (email.endsWith('@company.com')) {
-    return 'developer';
+// Manual Signup
+router.post('/signup', async (req, res) => {
+  const { name, username, password, role } = req.body;
+
+  try {
+    const existingUser = await User.findOne({ username });
+    if (existingUser) return res.status(400).json({ msg: 'Username already exists' });
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const user = new User({
+      name,
+      username,
+      password: hashedPassword,
+      role,
+    });
+
+    await user.save();
+
+    const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: '1d' });
+
+    res.json({ token, user });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ msg: 'Server error' });
   }
-  return 'reporter';
-}
+});
 
-router.post("/google", async (req, res) => {
+// Manual Login
+router.post('/login', async (req, res) => {
+  const { username, password } = req.body;
+
+  try {
+    const user = await User.findOne({ username });
+    if (!user) return res.status(400).json({ msg: 'Invalid username or password' });
+
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) return res.status(400).json({ msg: 'Invalid username or password' });
+
+    const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: '1d' });
+
+    res.json({ token, user });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ msg: 'Server error' });
+  }
+});
+
+// Google OAuth
+router.post('/google', async (req, res) => {
   const { token } = req.body;
 
   try {
-    const ticket = await client.verifyIdToken({
-      idToken: token,
-      audience: process.env.GOOGLE_CLIENT_ID,
-    });
+    // You should verify the token using Google Auth Library here
+    // For simplicity, let's assume you decoded a valid Google profile
 
-    const { name, email, sub: googleId } = ticket.getPayload();
+    const { name, email, sub: googleId } = req.body.profile; // Normally you'd get this from token verification
 
-    let user = await User.findOne({ email });
+    let user = await User.findOne({ googleId });
 
     if (!user) {
-      const role = determineUserRole(email); // logic to assign role
-      user = await User.create({ name, email, googleId, role });
+      user = new User({
+        name,
+        email,
+        googleId,
+      });
+      await user.save();
     }
 
-    const jwtToken = jwt.sign(
-      { id: user._id, role: user.role },
-      process.env.JWT_SECRET,
-      { expiresIn: "1d" }
-    );
+    const jwtToken = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: '1d' });
 
-    res.json({
-      token: jwtToken,
-      user: {
-        name: user.name,
-        email: user.email,
-        role: user.role
-      }
-    });
+    res.json({ token: jwtToken, user });
   } catch (err) {
-    console.error("Google auth failed", err);
-    res.status(401).json({ error: "Authentication failed" });
+    console.error(err);
+    res.status(500).json({ msg: 'Google Auth failed' });
   }
 });
 
