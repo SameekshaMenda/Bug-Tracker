@@ -1,11 +1,13 @@
+// models/User.js
 const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
-  name: { type: String },
-  username: { type: String, unique: true, sparse: true }, // Optional if using Google
-  email: { type: String, unique: true, sparse: true },     // Optional if using manual
-  password: { type: String },  // Hashed password
-  googleId: { type: String },  // Only for Google OAuth
+  name: String,
+  email: { type: String, unique: true },
+  googleId: String,
+  username: String,
+  password: String,
+  isApproved: { type: Boolean, default: false }, // ✅ only allow approved users
   role: { type: String, enum: ['reporter', 'developer', 'admin'], default: 'reporter' },
   createdAt: { type: Date, default: Date.now }
 });

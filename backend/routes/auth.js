@@ -56,33 +56,38 @@ router.post('/login', async (req, res) => {
 });
 
 // Google OAuth
-router.post('/google', async (req, res) => {
+// routes/auth.js or controllers/auth.js
+router.post('/auth/google', async (req, res) => {
   const { token } = req.body;
+  const ticket = await client.verifyIdToken({
+    idToken: token,
+    audience: process.env.GOOGLE_CLIENT_ID,
+  });
 
-  try {
-    // You should verify the token using Google Auth Library here
-    // For simplicity, let's assume you decoded a valid Google profile
+  const payload = ticket.getPayload();
+  const { sub, email, name, picture } = payload;
 
-    const { name, email, sub: googleId } = req.body.profile; // Normally you'd get this from token verification
+  // ✅ Check if the user exists and is approved
+  let user = await User.findOne({ email });
 
-    let user = await User.findOne({ googleId });
-
-    if (!user) {
-      user = new User({
-        name,
-        email,
-        googleId,
-      });
-      await user.save();
-    }
-
-    const jwtToken = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: '1d' });
-
-    res.json({ token: jwtToken, user });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ msg: 'Google Auth failed' });
+  if (!user) {
+    return res.status(403).json({ message: "Access Denied: You are not an approved user." });
   }
+
+  if (!user.isApproved) {
+    return res.status(403).json({ message: "Access Denied: You are not approved by admin." });
+  }
+
+  // ✅ Update googleId if not already stored
+  if (!user.googleId) {
+    user.googleId = sub;
+    await user.save();
+  }
+
+  // generate JWT or return session
+  const tokenToSend = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
+  res.json({ token: tokenToSend, user });
 });
+
 
 module.exports = router;
