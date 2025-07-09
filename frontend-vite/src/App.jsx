@@ -12,21 +12,24 @@ function App() {
 
   if (!user) return <Login onLogin={(user) => {
     setUser(user);
+    
     localStorage.setItem("user", JSON.stringify(user));
   }} />;
 
   return (
+    <div className="min-h-screen w-screen bg-[#FAEB92] px-0 py-0 m-0">
     <div className="container mt-4">
-      <h2>Welcome, {user.name} ({user.role})</h2>
+      {/* <h2>Welcome, {user.name} ({user.role})</h2> */}
 
       {user.role === "developer" ? (
         <DeveloperDashboard user={user} />
       ) : (
         <>
           <BugForm onBugAdded={() => {}} />
-          <BugList reporter={user.name} />
+          
         </>
       )}
+    </div>
     </div>
   );
 }
